@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, Edit3, Trash2, CheckCircle2, AlertCircle, X, Package } from 'lucide-react';
-import { products as initialProducts } from '../data/products';
+import { products as initialProducts, getProductAvailability } from '../data/products';
 import { categories } from '../data/categories';
 import { useToast } from '../context/ToastContext';
 
@@ -60,15 +60,16 @@ const AdminProducts = () => {
 
   const handleOpenEdit = (prod) => {
     setEditingProduct(prod);
+    const currentAvail = getProductAvailability(prod);
     setFormData({
       name: prod.name,
-      category: prod.category,
-      division: prod.division || 'Flavours',
-      price: prod.price || 1500,
-      packSize: prod.packSize || '25 kg Drum',
-      stockStatus: prod.inStock ? 'In Stock' : 'Out of Stock',
-      profile: prod.profile || prod.flavourProfile || prod.scentProfile || '',
-      applications: prod.applications ? prod.applications.join(', ') : ''
+      category: prod.categoryName || prod.category,
+      division: prod.division || (prod.type === 'flavour' ? 'Flavours' : 'Fragrances'),
+      price: prod.price || prod.demoPrice || 1500,
+      packSize: prod.packSize || (prod.packSizes ? prod.packSizes[0] : '25 kg Drum'),
+      stockStatus: currentAvail,
+      profile: prod.profile || prod.flavourProfile || prod.scentProfile || prod.sensoryProfile || '',
+      applications: prod.applications ? prod.applications.join(', ') : (prod.suggestedApplications ? prod.suggestedApplications.join(', ') : '')
     });
     setIsModalOpen(true);
   };
@@ -96,17 +97,31 @@ const AdminProducts = () => {
             ...p,
             name: formData.name,
             category: formData.category,
+            categoryName: formData.category,
             division: formData.division,
             price: Number(formData.price),
+            demoPrice: Number(formData.price),
             packSize: formData.packSize,
+            availability: formData.stockStatus,
             inStock: formData.stockStatus === 'In Stock',
-            profile: formData.profile
+            profile: formData.profile,
+            sensoryProfile: formData.profile
           };
         }
         return p;
       });
       saveProductListToStorage(updated);
-      addToast(`Updated product "${formData.name}"`, 'success');
+
+      // Save to global availability overrides
+      try {
+        const overrides = JSON.parse(localStorage.getItem('skff_product_availability_overrides') || '{}');
+        overrides[editingProduct.id] = formData.stockStatus;
+        localStorage.setItem('skff_product_availability_overrides', JSON.stringify(overrides));
+      } catch (err) {
+        console.error('Error saving availability override:', err);
+      }
+
+      addToast(`Updated product "${formData.name}" (Status: ${formData.stockStatus})`, 'success');
     } else {
       // Create new
       const newProd = {
@@ -223,16 +238,24 @@ const AdminProducts = () => {
                   <td>₹{p.price?.toLocaleString('en-IN') || 'Quote'}</td>
                   <td>{p.packSize || '25 kg'}</td>
                   <td>
-                    <span style={{
-                      fontSize: '0.75rem',
-                      padding: '0.2rem 0.5rem',
-                      borderRadius: '4px',
-                      background: p.inStock ? '#E8F5E9' : '#FFEBEE',
-                      color: p.inStock ? '#2E7D32' : '#C62828',
-                      fontWeight: 600
-                    }}>
-                      {p.inStock ? 'Available' : 'Lead Time'}
-                    </span>
+                    {(() => {
+                      const avail = getProductAvailability(p);
+                      const isGreen = avail === 'In Stock';
+                      const isAmber = avail === 'Available on Request';
+                      return (
+                        <span style={{
+                          fontSize: '0.75rem',
+                          padding: '0.2rem 0.55rem',
+                          borderRadius: '4px',
+                          background: isGreen ? '#E8F5E9' : isAmber ? '#FFF8E1' : '#FFEBEE',
+                          color: isGreen ? '#2E7D32' : isAmber ? '#B45309' : '#C62828',
+                          fontWeight: 600,
+                          whiteSpace: 'nowrap'
+                        }}>
+                          ● {avail}
+                        </span>
+                      );
+                    })()}
                   </td>
                   <td>
                     <button
@@ -369,6 +392,21 @@ const AdminProducts = () => {
                     style={{ width: '100%', padding: '0.6rem 0.85rem', borderRadius: '6px', border: '1px solid var(--color-border)' }}
                   />
                 </div>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.35rem' }}>
+                  Availability Status *
+                </label>
+                <select
+                  value={formData.stockStatus}
+                  onChange={(e) => setFormData({ ...formData, stockStatus: e.target.value })}
+                  style={{ width: '100%', padding: '0.6rem 0.85rem', borderRadius: '6px', border: '1px solid var(--color-border)', background: '#FFFFFF' }}
+                >
+                  <option value="In Stock">In Stock (Ready for Dispatch)</option>
+                  <option value="Available on Request">Available on Request (Compounded to Order)</option>
+                  <option value="Out of Stock">Out of Stock (Awaiting Production/Harvest)</option>
+                </select>
               </div>
 
               <div>

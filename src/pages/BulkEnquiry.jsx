@@ -8,6 +8,7 @@ const BulkEnquiry = () => {
   const [searchParams] = useSearchParams();
   const initialProduct = searchParams.get('product') || '';
   const initialCategory = searchParams.get('category') || '';
+  const initialSku = searchParams.get('sku') || '';
 
   return (
     <div className="bulk-enquiry-page" style={{ paddingBottom: '5rem' }}>
@@ -30,6 +31,7 @@ const BulkEnquiry = () => {
             <EnquiryForm
               initialCategory={initialCategory}
               initialProduct={initialProduct}
+              initialSku={initialSku}
             />
           </div>
 

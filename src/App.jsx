@@ -13,7 +13,6 @@ import CartDrawer from './components/CartDrawer';
 
 // Storefront & Corporate Pages
 import Home from './pages/Home';
-import About from './pages/About';
 import CompanyProfile from './pages/CompanyProfile';
 import Industries from './pages/Industries';
 import CategoryPage from './pages/CategoryPage';
@@ -36,6 +35,8 @@ import Wishlist from './pages/Wishlist';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Account from './pages/Account';
+import Orders from './pages/Orders';
+import Quotes from './pages/Quotes';
 import NotFound from './pages/NotFound';
 
 // Demo Admin Module
@@ -63,7 +64,6 @@ const AppLayout = () => {
         <Routes>
           {/* Main Corporate Routes */}
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
           <Route path="/company-profile" element={<CompanyProfile />} />
           <Route path="/industries" element={<Industries />} />
 
@@ -71,17 +71,20 @@ const AppLayout = () => {
           <Route path="/flavours" element={<CategoryPage overrideType="flavour" />} />
           <Route path="/fragrances" element={<CategoryPage overrideType="fragrance" />} />
           <Route path="/category/:slug" element={<CategoryPage />} />
+          <Route path="/products" element={<ProductCatalogue />} />
+          <Route path="/products/:slug" element={<ProductDetails />} />
           <Route path="/catalogue" element={<ProductCatalogue />} />
           <Route path="/specifications" element={<ProductSpecifications />} />
           <Route path="/product/:slug" element={<ProductDetails />} />
           <Route path="/search" element={<SearchResults />} />
 
           {/* B2B Enquiry & Quotations */}
+          <Route path="/request-quote" element={<BulkEnquiry />} />
           <Route path="/enquiry" element={<BulkEnquiry />} />
           <Route path="/bulk-enquiry" element={<BulkEnquiry />} />
           <Route path="/contact" element={<Contact />} />
 
-          {/* Knowledge & Resources */}
+          {/* Knowledge & Educational Resources */}
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogDetails />} />
           <Route path="/faq" element={<FAQ />} />
@@ -102,6 +105,8 @@ const AppLayout = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/account" element={<Account />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/quotes" element={<Quotes />} />
 
           {/* Demo Admin Console */}
           <Route path="/admin" element={<AdminDashboard />} />

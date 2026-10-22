@@ -119,26 +119,48 @@ const Contact = () => {
               </div>
             </div>
 
-            {/* Stylized Location Map Card */}
+            {/* Product Consultation CTA Banner */}
+            <div style={{ background: 'var(--color-bg-pastel-pink)', border: '1px solid rgba(232, 93, 117, 0.25)', borderRadius: 'var(--radius-xl)', padding: '1.75rem', textAlign: 'center' }}>
+              <span className="eyebrow" style={{ color: 'var(--color-accent-rose)' }}>1-ON-1 TECHNICAL CONSULTATION</span>
+              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', color: 'var(--color-primary-dark)', margin: '0.25rem 0 0.5rem' }}>
+                Schedule a Sensory Formulation Session
+              </h4>
+              <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', lineHeight: 1.5, marginBottom: '1.25rem' }}>
+                Need custom compounding or base matrix off-note masking? Book a direct session with our senior flavourists or fragrance evaluators.
+              </p>
+              <a href="mailto:consultation@skff.in?subject=Schedule%20Formulation%20Consultation" className="btn btn-rose btn-sm" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                <Mail size={14} />
+                <span>Book Technical Consultation</span>
+              </a>
+            </div>
+
+            {/* Verified Google Maps Embed Card */}
             <div style={{ background: '#FFFFFF', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-xl)', overflow: 'hidden', boxShadow: 'var(--shadow-sm)' }}>
-              <div style={{ background: 'var(--color-primary-dark)', color: '#FFFFFF', padding: '1rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', fontWeight: 600 }}>
-                <MapPin size={16} color="var(--color-accent-soft-rose)" />
-                <span>Lotus Corporate Park, Goregaon East, Mumbai</span>
+              <div style={{ background: 'var(--color-primary-dark)', color: '#FFFFFF', padding: '0.85rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', fontWeight: 600 }}>
+                <MapPin size={16} color="var(--color-accent-rose)" />
+                <span>Verified Corporate Headquarters — Goregaon East, Mumbai</span>
               </div>
-              <div style={{ height: '240px', background: 'var(--color-bg-cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: '2rem', textAlign: 'center' }}>
-                <Building2 size={36} color="var(--color-accent-rose)" style={{ marginBottom: '0.5rem' }} />
-                <strong style={{ color: 'var(--color-primary-dark)' }}>SKFF (INDIA) PVT. LTD.</strong>
-                <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', maxWidth: '300px', marginTop: '0.25rem' }}>
-                  Off Western Express Highway, Goregaon (East), Mumbai – 400063
-                </span>
+              <div style={{ height: '260px', width: '100%', position: 'relative' }}>
+                <iframe
+                  title="SKFF Corporate Office Location Map"
+                  src="https://maps.google.com/maps?q=Lotus+Corporate+Park+Goregaon+East+Mumbai&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+              <div style={{ padding: '0.75rem 1rem', background: 'var(--color-bg-ivory)', borderTop: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.78rem' }}>
+                <span style={{ color: 'var(--color-text-muted)' }}>Lotus Corporate Park, Off Western Express Highway</span>
                 <a 
                   href="https://maps.google.com/?q=Lotus+Corporate+Park+Goregaon+East+Mumbai" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="btn btn-secondary btn-sm"
-                  style={{ marginTop: '1rem' }}
+                  style={{ color: 'var(--color-accent-rose)', fontWeight: 600, textDecoration: 'none' }}
                 >
-                  View on Google Maps →
+                  Open in Google Maps →
                 </a>
               </div>
             </div>

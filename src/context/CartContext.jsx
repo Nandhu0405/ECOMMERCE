@@ -82,21 +82,33 @@ export const CartProvider = ({ children }) => {
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + (item.demoPrice || 0) * item.quantity,
+  // Separate priced items from quote-required formulations
+  const isPriced = (item) => !item.quoteRequired && Boolean(item.price || item.demoPrice);
+  const pricedItems = cartItems.filter(isPriced);
+  const quoteItems = cartItems.filter(item => !isPriced(item));
+  const hasPricedItems = pricedItems.length > 0;
+  const hasQuoteItems = quoteItems.length > 0;
+
+  // Subtotal calculated strictly for items with known prices
+  const subtotal = pricedItems.reduce(
+    (sum, item) => sum + (item.price || item.demoPrice || 0) * item.quantity,
     0
   );
 
-  // Demo calculations
-  const shipping = subtotal > 5000 || subtotal === 0 ? 0 : 350;
-  const tax = Math.round(subtotal * 0.18); // 18% demo GST
-  const total = subtotal + shipping + tax;
+  // Demo logistics and GST calculations apply only when priced items exist
+  const shipping = hasPricedItems ? (subtotal > 5000 || subtotal === 0 ? 0 : 350) : 0;
+  const tax = hasPricedItems ? Math.round(subtotal * 0.18) : 0; // 18% demo GST
+  const total = hasPricedItems ? (subtotal + shipping + tax) : 0;
 
   return (
     <CartContext.Provider
       value={{
         cartItems,
         totalItems,
+        pricedItems,
+        quoteItems,
+        hasPricedItems,
+        hasQuoteItems,
         subtotal,
         shipping,
         tax,

@@ -7,10 +7,20 @@
   /* Brand Color Palette */
   --color-primary: #1F1F1F;          /* Deep Charcoal */
   --color-primary-dark: #111111;     /* Near Black */
-  --color-accent-rose: #E85D75;      /* Signature Rose */
+  --color-accent-rose: #E85D75;      /* Signature SKFF Rose/Red */
+  --color-accent-rose-hover: #D84A63;
   --color-accent-soft-rose: #F48CA7; /* Soft Accent Rose */
   --color-accent-gold: #C59B27;      /* Restrained Muted Gold */
   --color-accent-gold-light: #E8D070;/* Pale Gold Shimmer */
+
+  /* SKFF Brand Soft Pastels & Creams */
+  --color-pastel-pink: #FCE7F0;      /* Soft Pastel Pink */
+  --color-pastel-pink-soft: #FDF2F6; /* Whisper Pastel Pink */
+  --color-warm-cream: #FAF5F0;       /* Warm Cream Neutral */
+  --color-warm-ivory: #FFF9F7;       /* Warm Ivory Background */
+  --color-soft-peach: #FDE8E1;       /* Soft Peach */
+  --color-peach-light: #FFF2ED;      /* Pale Peach Shimmer */
+  --color-white: #FFFFFF;
   
   /* Backgrounds & Neutrals */
   --color-bg-ivory: #FFF9F7;         /* Warm Ivory Background */
@@ -18,9 +28,12 @@
   --color-bg-white: #FFFFFF;
   --color-bg-card: #FFFFFF;
   --color-bg-card-subtle: #FDFBF9;
+  --gradient-beige-subtle: linear-gradient(135deg, #FFF9F7 0%, #FAF5F0 50%, #FDF2F4 100%);
+  --gradient-hero: linear-gradient(135deg, rgba(255,249,247,0.92) 0%, rgba(250,245,240,0.85) 50%, rgba(253,242,244,0.9) 100%);
+  --gradient-rose-subtle: linear-gradient(135deg, rgba(232,93,117,0.08) 0%, rgba(244,140,167,0.12) 100%);
   
   /* Text Colors */
-  --color-text-main: #1F1F1F;        /* Dominant Heading/Body */
+  --color-text-main: #1F1F1F;        /* Dark Charcoal Heading/Body */
   --color-text-muted: #555555;       /* Secondary Paragraph */
   --color-text-light: #777777;       /* Tertiary Info */
   --color-text-inverse: #FFFFFF;     /* White on Dark */
@@ -38,14 +51,16 @@
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.08);
+  --shadow-subtle: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
   --shadow-rose: 0 12px 30px rgba(232, 93, 117, 0.18);
-  --shadow-luxury: 0 20px 50px rgba(0, 0, 0, 0.10);
+  --shadow-luxury: 0 20px 50px rgba(0, 0, 0, 0.08);
   
   /* Radii */
   --radius-sm: 6px;
   --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 30px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 1.25rem;             /* 20px - rounded-2xl */
   --radius-full: 9999px;
   
   /* Spacing & Transitions */
@@ -395,3 +410,60 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   outline: 2px solid var(--color-accent-rose);
   outline-offset: 3px;
 }
+
+/* ==========================================================================
+   SKFF Brand Luxury Utilities (Soft pastels, rounded-2xl, glassmorphism)
+   ========================================================================== */
+.card-rounded-2xl {
+  border-radius: var(--radius-2xl);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow-sm);
+}
+
+.bg-warm-gradient {
+  background: var(--gradient-beige-subtle);
+}
+
+.badge-pastel-pink {
+  background: var(--color-pastel-pink);
+  color: #B83250;
+  border: 1px solid rgba(232, 93, 117, 0.2);
+}
+
+.badge-soft-peach {
+  background: var(--color-soft-peach);
+  color: #A34827;
+  border: 1px solid rgba(244, 140, 167, 0.2);
+}
+
+/* Subtle animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hover-lift {
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+

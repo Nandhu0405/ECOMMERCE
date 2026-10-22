@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumb';
 import ProductCard from '../components/ProductCard';
-import { PRODUCTS, getProductBySlug, getRelatedProducts } from '../data/products';
+import RequestSampleModal from '../components/RequestSampleModal';
+import { PRODUCTS, getProductBySlug, getRelatedProducts, getProductAvailability } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useToast } from '../context/ToastContext';
 import { 
   Star, Heart, ShoppingBag, Send, ShieldCheck, CheckCircle2, 
-  FileText, ArrowRight, AlertCircle, RefreshCw, Layers 
+  FileText, ArrowRight, AlertCircle, RefreshCw, Layers, FlaskConical 
 } from 'lucide-react';
+import appLab from '../assets/application-lab.jpg';
+import plantImg from '../assets/production-plant.jpg';
+import rdLab from '../assets/rd-lab.jpg';
 
 const RECENTLY_VIEWED_KEY = 'skff_recently_viewed_products';
 
@@ -26,6 +30,10 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('specs');
   const [recentlyViewed, setRecentlyViewed] = useState([]);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isSampleModalOpen, setIsSampleModalOpen] = useState(false);
+
+  const galleryImages = product ? [product.image, appLab, plantImg, rdLab] : [];
 
   useEffect(() => {
     if (product) {
@@ -68,7 +76,27 @@ const ProductDetails = () => {
   const isSaved = isInWishlist(product.id);
   const relatedProducts = getRelatedProducts(product, 4);
 
+  const availability = getProductAvailability(product);
+  const isOutOfStock = availability === 'Out of Stock';
+  const isAvailableOnRequest = availability === 'Available on Request';
+
+  const getAvailabilityBadgeStyle = (status) => {
+    switch (status) {
+      case 'Out of Stock':
+        return { color: '#C62828', background: 'rgba(198, 40, 40, 0.08)', border: '1px solid rgba(198, 40, 40, 0.25)' };
+      case 'Available on Request':
+        return { color: '#B45309', background: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.25)' };
+      case 'In Stock':
+      default:
+        return { color: '#2E7D32', background: 'rgba(46, 125, 50, 0.08)', border: '1px solid rgba(46, 125, 50, 0.25)' };
+    }
+  };
+
   const handleAddToCart = () => {
+    if (isOutOfStock) {
+      addToast(`"${product.name}" is currently out of stock. You can submit a laboratory sample request or quotation for batch allocation.`, 'error');
+      return;
+    }
     addToCart(product, selectedPackSize, quantity);
     addToast(`Added ${quantity} × ${product.name} (${selectedPackSize}) to demo cart!`, 'success');
   };
@@ -83,7 +111,7 @@ const ProductDetails = () => {
   };
 
   const handleRequestQuote = () => {
-    navigate(`/enquiry?product=${encodeURIComponent(product.name)}&category=${encodeURIComponent(product.categoryName)}`);
+    navigate(`/enquiry?product=${encodeURIComponent(product.name)}&category=${encodeURIComponent(product.categoryName || product.category)}&sku=${encodeURIComponent(product.sku || product.id)}`);
   };
 
   const breadcrumbs = [
@@ -101,8 +129,35 @@ const ProductDetails = () => {
         <div className="product-detail-layout">
           {/* Gallery / Image Panel */}
           <div className="product-gallery-panel">
-            <div className="product-main-image-box">
-              <img src={product.image} alt={product.name} />
+            <div className="product-main-image-box" style={{ borderRadius: 'var(--radius-xl)', overflow: 'hidden', height: '380px' }}>
+              <img 
+                src={galleryImages[activeImageIndex] || product.image} 
+                alt={product.name} 
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            </div>
+
+            {/* Thumbnail Row */}
+            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem', marginBottom: '1.5rem' }}>
+              {galleryImages.map((img, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setActiveImageIndex(idx)}
+                  style={{
+                    width: '68px',
+                    height: '68px',
+                    borderRadius: 'var(--radius-md)',
+                    overflow: 'hidden',
+                    border: activeImageIndex === idx ? '2px solid var(--color-accent-rose)' : '1px solid var(--color-border)',
+                    padding: 0,
+                    opacity: activeImageIndex === idx ? 1 : 0.7,
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <img src={img} alt={`View ${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </button>
+              ))}
             </div>
 
             {/* Quality & Manufacturing Assurance Badge */}
@@ -121,15 +176,30 @@ const ProductDetails = () => {
 
           {/* Details & Actions Panel */}
           <div className="product-detail-info">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
               <Link to={`/category/${product.categoryId}`} className="badge badge-rose">
                 {product.categoryName}
               </Link>
               <span className="badge badge-primary">
                 {product.type === 'flavour' ? 'Taste Division' : 'Scent Division'}
               </span>
-              <span style={{ fontSize: '0.78rem', color: '#2E7D32', fontWeight: 600, marginLeft: 'auto' }}>
-                ● {product.availability}
+              <span style={{ fontSize: '0.8rem', fontFamily: 'monospace', color: 'var(--color-text-light)', background: '#F0ECE9', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>
+                SKU: {product.sku || `SKFF-${product.id.toUpperCase()}`}
+              </span>
+              <span 
+                style={{ 
+                  fontSize: '0.8rem', 
+                  fontWeight: 600, 
+                  marginLeft: 'auto',
+                  padding: '0.25rem 0.75rem',
+                  borderRadius: 'var(--radius-full)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  ...getAvailabilityBadgeStyle(availability)
+                }}
+              >
+                ● {availability}
               </span>
             </div>
 
@@ -143,33 +213,83 @@ const ProductDetails = () => {
                 ))}
               </div>
               <span style={{ fontWeight: 700, color: 'var(--color-text-main)', marginLeft: '0.25rem' }}>
-                {product.demoRating}
+                {product.demoRating || 4.8}
               </span>
-              <span className="rating-count">({product.reviewCount} customer reviews)</span>
+              <span className="rating-count">({product.reviewCount || 24} customer evaluations)</span>
               <span style={{ margin: '0 0.5rem', color: 'var(--color-border)' }}>|</span>
               <span style={{ fontSize: '0.8rem', color: 'var(--color-text-light)' }}>
-                Item Ref: #{product.id.toUpperCase()}
+                MOQ: {product.minimumOrderQuantity || product.minOrderQuantity || '5 kg'}
               </span>
             </div>
 
-            {/* Demo Pricing Box */}
+            {/* Pricing / Quote Box */}
             <div style={{ background: 'var(--color-bg-ivory)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '1.25rem', marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.65rem' }}>
-                <span style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--color-primary-dark)' }}>
-                  ₹{product.demoPrice.toLocaleString('en-IN')}
-                </span>
-                {product.originalPrice && (
-                  <span style={{ fontSize: '1rem', color: 'var(--color-text-light)', textDecoration: 'line-through' }}>
-                    ₹{product.originalPrice.toLocaleString('en-IN')}
+              {product.quoteRequired ? (
+                <div>
+                  <span style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--color-accent-rose)' }}>
+                    Commercial Quotation Required
                   </span>
-                )}
-                <span style={{ fontSize: '0.8rem', color: 'var(--color-accent-rose)', fontWeight: 600 }}>
-                  Demo Quote / {selectedPackSize}
-                </span>
-              </div>
-              <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.35rem' }}>
-                *Illustrative B2B demonstration pricing. Official commercial pricing is determined by order volume, delivery location, and contract terms.
-              </p>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', marginTop: '0.25rem' }}>
+                    Due to bespoke matrix compatibility and batch compounding parameters, official volume pricing is provided via Request a Quote.
+                  </p>
+                </div>
+              ) : (
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.65rem' }}>
+                    <span style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--color-primary-dark)' }}>
+                      ₹{(product.price || product.demoPrice).toLocaleString('en-IN')}
+                    </span>
+                    {product.originalPrice && (
+                      <span style={{ fontSize: '1rem', color: 'var(--color-text-light)', textDecoration: 'line-through' }}>
+                        ₹{product.originalPrice.toLocaleString('en-IN')}
+                      </span>
+                    )}
+                    <span style={{ fontSize: '0.8rem', color: 'var(--color-accent-rose)', fontWeight: 600 }}>
+                      Demo Rate / {selectedPackSize}
+                    </span>
+                  </div>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '0.35rem' }}>
+                    *Illustrative B2B demonstration pricing. Official commercial pricing is determined by order volume, delivery location, and proforma terms.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Facility Dispatch & Lead Time Indicator */}
+            <div style={{
+              padding: '0.75rem 1rem',
+              borderRadius: 'var(--radius-md)',
+              marginBottom: '1.5rem',
+              fontSize: '0.84rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.65rem',
+              background: isOutOfStock ? 'rgba(198, 40, 40, 0.05)' : isAvailableOnRequest ? 'rgba(245, 158, 11, 0.07)' : 'rgba(46, 125, 50, 0.05)',
+              border: `1px solid ${isOutOfStock ? 'rgba(198, 40, 40, 0.2)' : isAvailableOnRequest ? 'rgba(245, 158, 11, 0.2)' : 'rgba(46, 125, 50, 0.2)'}`,
+              color: isOutOfStock ? '#C62828' : isAvailableOnRequest ? '#92400E' : '#2E7D32'
+            }}>
+              {isOutOfStock ? (
+                <>
+                  <AlertCircle size={18} style={{ flexShrink: 0 }} />
+                  <span>
+                    <strong>Currently Out of Stock:</strong> Immediate dispatch unavailable. Add to Cart is disabled. You can submit an evaluation sample request or RFQ for upcoming production runs.
+                  </span>
+                </>
+              ) : isAvailableOnRequest ? (
+                <>
+                  <CheckCircle2 size={18} style={{ flexShrink: 0 }} />
+                  <span>
+                    <strong>Compounded to Order:</strong> Manufactured at our Boisar plant. Typical lead time: 3–5 working days. Request a pilot evaluation sample below.
+                  </span>
+                </>
+              ) : (
+                <>
+                  <CheckCircle2 size={18} style={{ flexShrink: 0 }} />
+                  <span>
+                    <strong>In Stock at Boisar Facility:</strong> Ready for immediate dispatch. Typical dispatch lead time: 24–48 hours from order confirmation.
+                  </span>
+                </>
+              )}
             </div>
 
             {/* Sensory Profile / Fragrance Notes Callout */}
@@ -197,9 +317,12 @@ const ProductDetails = () => {
               )}
             </div>
 
-            {/* Full Description */}
-            <p className="product-detail-desc">
-              {product.fullDesc}
+            {/* Short & Detailed Description */}
+            <p style={{ fontSize: '0.95rem', fontWeight: 500, color: 'var(--color-primary-dark)', marginBottom: '0.5rem' }}>
+              {product.shortDescription || product.shortDesc}
+            </p>
+            <p className="product-detail-desc" style={{ marginBottom: '1.5rem' }}>
+              {product.description || product.fullDesc}
             </p>
 
             {/* Pack Size Selector */}
@@ -220,26 +343,51 @@ const ProductDetails = () => {
             </div>
 
             {/* Quantity Stepper & Action Buttons */}
-            <div className="quantity-add-row">
+            <div className="quantity-add-row" style={{ flexWrap: 'wrap', gap: '0.75rem' }}>
               <div className="quantity-stepper">
-                <button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))}>-</button>
+                <button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))} disabled={isOutOfStock}>-</button>
                 <input 
                   type="number" 
                   min="1" 
                   value={quantity} 
+                  disabled={isOutOfStock}
                   onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))} 
                 />
-                <button type="button" onClick={() => setQuantity(quantity + 1)}>+</button>
+                <button type="button" onClick={() => setQuantity(quantity + 1)} disabled={isOutOfStock}>+</button>
               </div>
+
+              {isOutOfStock ? (
+                <button 
+                  type="button" 
+                  className="btn btn-secondary btn-lg"
+                  disabled
+                  style={{ flex: 1, minWidth: '160px', opacity: 0.55, cursor: 'not-allowed' }}
+                  title="Formulation is currently out of stock — immediate purchase disabled"
+                >
+                  <ShoppingBag size={18} />
+                  <span>Out of Stock</span>
+                </button>
+              ) : (
+                <button 
+                  type="button" 
+                  className="btn btn-primary btn-lg"
+                  onClick={handleAddToCart}
+                  style={{ flex: 1, minWidth: '160px' }}
+                >
+                  <ShoppingBag size={18} />
+                  <span>Add to Cart</span>
+                </button>
+              )}
 
               <button 
                 type="button" 
-                className="btn btn-primary btn-lg"
-                onClick={handleAddToCart}
-                style={{ flex: 1, minWidth: '180px' }}
+                className="btn btn-secondary btn-lg"
+                onClick={() => setIsSampleModalOpen(true)}
+                style={{ minWidth: '160px', display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}
+                title="Request official laboratory evaluation sample"
               >
-                <ShoppingBag size={18} />
-                <span>Add Sample to Cart</span>
+                <FlaskConical size={17} color="var(--color-accent-rose)" />
+                <span>Request Sample</span>
               </button>
 
               <button 
@@ -248,14 +396,14 @@ const ProductDetails = () => {
                 onClick={handleRequestQuote}
               >
                 <Send size={16} />
-                <span>Request Quotation</span>
+                <span>Request Quote</span>
               </button>
 
               <button 
                 type="button" 
                 className={`product-wishlist-btn ${isSaved ? 'active' : ''}`}
                 onClick={handleToggleWishlist}
-                style={{ position: 'static', width: '46px', height: '46px' }}
+                style={{ position: 'static', width: '48px', height: '48px' }}
                 title={isSaved ? "Remove from wishlist" : "Save to wishlist"}
               >
                 <Heart size={20} fill={isSaved ? 'var(--color-accent-rose)' : 'none'} />
@@ -278,50 +426,62 @@ const ProductDetails = () => {
           </div>
         </div>
 
-        {/* Technical Specifications Section */}
+        {/* Technical Specifications, Applications, Packaging, Storage Section */}
         <div style={{ marginTop: '3rem', marginBottom: '4rem' }}>
-          <div style={{ display: 'flex', borderBottom: '1px solid var(--color-border)', gap: '2rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', borderBottom: '1px solid var(--color-border)', gap: '1.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
             <button 
               style={{ padding: '0.75rem 0', fontWeight: 700, fontSize: '0.95rem', color: activeTab === 'specs' ? 'var(--color-accent-rose)' : 'var(--color-text-muted)', borderBottom: activeTab === 'specs' ? '2px solid var(--color-accent-rose)' : 'none', cursor: 'pointer' }}
               onClick={() => setActiveTab('specs')}
             >
-              Technical Specifications (Demo Data)
+              Product Specifications
             </button>
             <button 
-              style={{ padding: '0.75rem 0', fontWeight: 700, fontSize: '0.95rem', color: activeTab === 'sampling' ? 'var(--color-accent-rose)' : 'var(--color-text-muted)', borderBottom: activeTab === 'sampling' ? '2px solid var(--color-accent-rose)' : 'none', cursor: 'pointer' }}
-              onClick={() => setActiveTab('sampling')}
+              style={{ padding: '0.75rem 0', fontWeight: 700, fontSize: '0.95rem', color: activeTab === 'applications' ? 'var(--color-accent-rose)' : 'var(--color-text-muted)', borderBottom: activeTab === 'applications' ? '2px solid var(--color-accent-rose)' : 'none', cursor: 'pointer' }}
+              onClick={() => setActiveTab('applications')}
             >
-              Sampling &amp; Bulk Ordering Guidelines
+              Applications &amp; Dosages
+            </button>
+            <button 
+              style={{ padding: '0.75rem 0', fontWeight: 700, fontSize: '0.95rem', color: activeTab === 'packaging' ? 'var(--color-accent-rose)' : 'var(--color-text-muted)', borderBottom: activeTab === 'packaging' ? '2px solid var(--color-accent-rose)' : 'none', cursor: 'pointer' }}
+              onClick={() => setActiveTab('packaging')}
+            >
+              Packaging &amp; MOQs
+            </button>
+            <button 
+              style={{ padding: '0.75rem 0', fontWeight: 700, fontSize: '0.95rem', color: activeTab === 'storage' ? 'var(--color-accent-rose)' : 'var(--color-text-muted)', borderBottom: activeTab === 'storage' ? '2px solid var(--color-accent-rose)' : 'none', cursor: 'pointer' }}
+              onClick={() => setActiveTab('storage')}
+            >
+              Storage &amp; Handling
             </button>
           </div>
 
-          {activeTab === 'specs' ? (
+          {activeTab === 'specs' && (
             <div className="spec-table-container">
               <table className="spec-table">
                 <tbody>
                   <tr>
                     <th>Appearance &amp; Form</th>
-                    <td>{product.specifications.appearance}</td>
+                    <td>{product.specifications?.appearance || 'Standard Free-Flowing Liquid'}</td>
                   </tr>
                   <tr>
                     <th>Solubility &amp; Dispersion</th>
-                    <td>{product.specifications.solubility}</td>
+                    <td>{product.specifications?.solubility || 'Water & Oil Soluble'}</td>
                   </tr>
                   <tr>
                     <th>Recommended Dosage Rate</th>
-                    <td>{product.specifications.recommendedDosage}</td>
+                    <td>{product.specifications?.recommendedDosage || '0.10% – 0.35%'}</td>
                   </tr>
                   <tr>
                     <th>Shelf Life Retention</th>
-                    <td>{product.specifications.shelfLife}</td>
+                    <td>{product.specifications?.shelfLife || '24 Months in original sealed container'}</td>
                   </tr>
                   <tr>
                     <th>Recommended Storage</th>
-                    <td>{product.specifications.storageCondition}</td>
+                    <td>{product.specifications?.storageCondition || 'Cool, dry environment (15°C - 25°C)'}</td>
                   </tr>
                   <tr>
                     <th>Regulatory &amp; Quality Status</th>
-                    <td>{product.specifications.status}</td>
+                    <td>{product.specifications?.status || 'FSSAI / IFRA Compliant'}</td>
                   </tr>
                 </tbody>
               </table>
@@ -333,20 +493,66 @@ const ProductDetails = () => {
                 </span>
               </div>
             </div>
-          ) : (
+          )}
+
+          {activeTab === 'applications' && (
             <div style={{ background: '#FFFFFF', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '2rem', lineHeight: 1.7, fontSize: '0.92rem', color: 'var(--color-text-muted)' }}>
-              <h4 style={{ color: 'var(--color-primary-dark)', marginBottom: '0.75rem' }}>How to Order Samples from SKFF</h4>
+              <h4 style={{ color: 'var(--color-primary-dark)', marginBottom: '0.75rem' }}>Recommended Applications for {product.name}</h4>
+              <p style={{ marginBottom: '1.25rem' }}>
+                Formulated and validated across our pilot-scale application lines in Mumbai and Boisar to ensure maximum aromatic release and thermal stability.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
+                {(product.suggestedApplications || product.applications || []).map((app, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'var(--color-bg-ivory)', padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)' }}>
+                    <CheckCircle2 size={16} color="#2E7D32" />
+                    <span style={{ fontWeight: 600, color: 'var(--color-primary-dark)' }}>{app}</span>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontSize: '0.85rem' }}>
+                Need dosage optimization for custom matrices (e.g. sugar-reduced beverage or high-protein dough)? <Link to="/request-quote" style={{ color: 'var(--color-accent-rose)', fontWeight: 600 }}>Consult our Flavour Specialists →</Link>
+              </p>
+            </div>
+          )}
+
+          {activeTab === 'packaging' && (
+            <div style={{ background: '#FFFFFF', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '2rem', lineHeight: 1.7, fontSize: '0.92rem', color: 'var(--color-text-muted)' }}>
+              <h4 style={{ color: 'var(--color-primary-dark)', marginBottom: '0.75rem' }}>Standard Packaging Options</h4>
               <p style={{ marginBottom: '1rem' }}>
-                SKFF supplies evaluation sample canisters (typically 1 kg or 500 g) to verified product development teams, manufacturing facilities, and R&amp;D scientists.
+                All SKFF shipments use high-density fluorinated HDPE containers, UN-certified food-grade drums, or stainless steel barrels sealed with tamper-evident security closures.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
+                <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '1rem', textAlign: 'center' }}>
+                  <strong style={{ display: 'block', color: 'var(--color-primary-dark)' }}>1 kg Sample</strong>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Aluminium or HDPE Canister</span>
+                </div>
+                <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '1rem', textAlign: 'center' }}>
+                  <strong style={{ display: 'block', color: 'var(--color-primary-dark)' }}>5 kg &amp; 25 kg</strong>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Food-Grade HDPE Carboys</span>
+                </div>
+                <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '1rem', textAlign: 'center' }}>
+                  <strong style={{ display: 'block', color: 'var(--color-primary-dark)' }}>200 kg Barrel</strong>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Epoxy-Lined Steel Drums</span>
+                </div>
+              </div>
+              <p style={{ fontSize: '0.85rem' }}>
+                <strong>Minimum Order Quantity (MOQ):</strong> {product.minimumOrderQuantity || product.minOrderQuantity || '5 kg'}. Sample canisters (1 kg) available for verified formulation laboratories.
+              </p>
+            </div>
+          )}
+
+          {activeTab === 'storage' && (
+            <div style={{ background: '#FFFFFF', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '2rem', lineHeight: 1.7, fontSize: '0.92rem', color: 'var(--color-text-muted)' }}>
+              <h4 style={{ color: 'var(--color-primary-dark)', marginBottom: '0.75rem' }}>Storage &amp; Stability Guidelines</h4>
+              <p style={{ marginBottom: '1rem' }}>
+                To preserve volatile aromatic esters and prevent photochemical oxidation:
               </p>
               <ul style={{ paddingLeft: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.5rem' }}>
-                <li>Samples are dispatched directly from our Mumbai Application Center.</li>
-                <li>Comprehensive dosage guidelines and starting formulations can be requested from our technical sales team.</li>
-                <li>Commercial quantities (HDPE drums of 25 kg and steel barrels of 200 kg) are scheduled from the Boisar manufacturing complex.</li>
+                <li>Store in original sealed containers in a cool, well-ventilated warehouse (recommended: 15°C to 25°C).</li>
+                <li>Protect from direct sunlight, open flames, and prolonged exposure to atmospheric humidity.</li>
+                <li>Once opened, reseal tightly under nitrogen headspace if available, or consume within 90 days.</li>
+                <li>Shelf Life: {product.specifications?.shelfLife || '24 Months from manufacturing date under recommended storage.'}</li>
               </ul>
-              <Link to="/enquiry" className="btn btn-rose">
-                Submit Sample Request Form
-              </Link>
             </div>
           )}
         </div>
@@ -387,6 +593,13 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
+        {/* Request Sample Modal */}
+        <RequestSampleModal 
+          isOpen={isSampleModalOpen}
+          onClose={() => setIsSampleModalOpen(false)}
+          product={product}
+          initialSampleSize={selectedPackSize}
+        />
       </div>
     </div>
   );

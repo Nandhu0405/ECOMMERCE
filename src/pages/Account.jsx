@@ -7,17 +7,21 @@ import {
   Phone, 
   FileText, 
   PackageCheck, 
-  Clock, 
   LogOut, 
   ChevronRight, 
-  Download, 
   Sparkles, 
   ShieldAlert,
   Send,
   ShoppingBag,
+  MapPin,
+  Heart,
+  Plus,
+  CheckCircle2,
   ExternalLink
 } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
+import { useWishlist } from '../context/WishlistContext';
+import { useCart } from '../context/CartContext';
 import Breadcrumb from '../components/Breadcrumb';
 
 const Account = () => {
@@ -25,8 +29,39 @@ const Account = () => {
   const [user, setUser] = useState(null);
   const [enquiries, setEnquiries] = useState([]);
   const [orders, setOrders] = useState([]);
+  const { wishlistItems } = useWishlist();
+  const { cartItems } = useCart();
   const { addToast } = useToast();
   const navigate = useNavigate();
+
+  // Saved Addresses demo state
+  const [addresses, setAddresses] = useState([
+    {
+      id: 'addr-1',
+      type: 'Billing & Corporate HQ',
+      isDefault: true,
+      company: 'Kraft Foods Global Formulation Lab',
+      attention: 'Dr. Vikram Malhotra',
+      street: 'Tower 4, Mindspace SEZ, Airoli',
+      city: 'Navi Mumbai',
+      state: 'Maharashtra',
+      postalCode: '400708',
+      country: 'India',
+      gstin: '27AABCK8842F1Z9'
+    },
+    {
+      id: 'addr-2',
+      type: 'Production Plant / Receiving Warehouse',
+      isDefault: false,
+      company: 'Kraft Foods Confectionery Facility',
+      attention: 'Inward Warehouse Goods Receiving Bay 3',
+      street: 'Plot No. C-14, Industrial MIDC Zone',
+      city: 'Roha, Raigad',
+      state: 'Maharashtra',
+      postalCode: '402116',
+      country: 'India'
+    }
+  ]);
 
   useEffect(() => {
     // Load simulated user or provide high-tier demo client
@@ -41,12 +76,12 @@ const Account = () => {
       const defaultUser = {
         name: 'Dr. Vikram Malhotra',
         email: 'v.malhotra@cadbury-kraft.demo',
-        company: 'Cadbury Kraft Confectionery Division',
+        company: 'Kraft Foods Global Formulation Lab',
         role: 'Director of Flavour Innovation',
         industry: 'Bakery and Confectionery',
         accountTier: 'Enterprise Strategic Partner (Tier 1)',
         clientCode: 'SKFF-CL-4890',
-        memberSince: '2019',
+        memberSince: '2021',
         assignedManager: 'Sunil Mehta (VP Business Development, Mumbai)'
       };
       setUser(defaultUser);
@@ -83,313 +118,226 @@ const Account = () => {
   if (!user) return null;
 
   return (
-    <div className="account-page">
-      <div className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
-        <Breadcrumb items={[{ label: 'Home', path: '/' }, { label: 'B2B Client Dashboard' }]} />
+    <div className="account-page" style={{ paddingBottom: '6rem' }}>
+      <div className="container" style={{ paddingTop: '2rem' }}>
+        <Breadcrumb items={[{ label: 'Home', path: '/' }, { label: 'Customer Account Dashboard' }]} />
 
         {/* Demo Warning Notice */}
-        <div className="demo-notice-banner" style={{ marginBottom: '2rem' }}>
-          <ShieldAlert size={18} />
+        <div className="demo-notice-banner" style={{ marginBottom: '2rem', background: 'var(--color-bg-pastel-pink)', border: '1px solid rgba(232, 93, 117, 0.25)', borderRadius: 'var(--radius-lg)', padding: '0.75rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.85rem' }}>
+          <ShieldAlert size={18} color="var(--color-accent-rose)" />
           <span>
-            <strong>Simulated B2B Client Portal:</strong> This interface displays demo enterprise profile data and queries stored in your local browser.
+            <strong>Simulated B2B Client Portal:</strong> This dashboard demonstrates enterprise customer workflows, quotation tracking, and address profiles stored locally in your browser.
           </span>
         </div>
 
-        {/* Account Header */}
-        <div className="account-header-card">
-          <div className="account-header-left">
-            <div className="avatar-circle">
+        {/* Account Header Banner */}
+        <div className="account-header-card" style={{ background: '#FFFFFF', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-2xl)', padding: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.5rem', marginBottom: '2rem', boxShadow: 'var(--shadow-sm)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+            <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'var(--color-bg-pastel-pink)', color: 'var(--color-accent-rose)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', fontWeight: 700, border: '2px solid rgba(232, 93, 117, 0.3)' }}>
               {user.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
             </div>
             <div>
-              <div className="tier-badge">
-                <Sparkles size={14} /> {user.accountTier}
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-accent-rose)', background: 'var(--color-bg-pastel-pink)', padding: '0.2rem 0.6rem', borderRadius: 'var(--radius-full)', marginBottom: '0.35rem' }}>
+                <Sparkles size={12} /> {user.accountTier}
               </div>
-              <h1>{user.name}</h1>
-              <p className="account-subtext">
-                <Building2 size={16} /> <strong>{user.company}</strong> &bull; {user.role}
+              <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary-dark)', fontSize: '1.75rem', margin: '0 0 0.25rem' }}>
+                {user.name}
+              </h1>
+              <p style={{ margin: 0, color: 'var(--color-text-muted)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <Building2 size={15} /> <strong>{user.company}</strong> &bull; {user.role}
               </p>
             </div>
           </div>
-          <div className="account-header-right">
-            <div className="client-id-box">
-              <span className="client-id-label">Client Account Code</span>
-              <span className="client-id-value">{user.clientCode}</span>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <div style={{ background: 'var(--color-bg-ivory)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '0.5rem 1rem', textAlign: 'right' }}>
+              <span style={{ display: 'block', fontSize: '0.7rem', color: 'var(--color-text-light)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Client ID</span>
+              <span style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-primary-dark)', fontFamily: 'monospace' }}>{user.clientCode}</span>
             </div>
-            <button onClick={handleLogout} className="btn btn-outline btn-sm logout-btn">
-              <LogOut size={16} /> Logout
+            <button onClick={handleLogout} className="btn btn-secondary btn-sm" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', color: '#D32F2F', borderColor: 'rgba(211, 47, 47, 0.25)' }}>
+              <LogOut size={15} />
+              <span>Logout</span>
             </button>
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="account-tabs">
-          <button
-            className={`account-tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
-            onClick={() => setActiveTab('overview')}
-          >
-            Dashboard Overview
-          </button>
-          <button
-            className={`account-tab-btn ${activeTab === 'enquiries' ? 'active' : ''}`}
-            onClick={() => setActiveTab('enquiries')}
-          >
-            My RFQs & Samples ({enquiries.length})
-          </button>
-          <button
-            className={`account-tab-btn ${activeTab === 'orders' ? 'active' : ''}`}
-            onClick={() => setActiveTab('orders')}
-          >
-            Demo Orders ({orders.length})
-          </button>
-          <button
-            className={`account-tab-btn ${activeTab === 'downloads' ? 'active' : ''}`}
-            onClick={() => setActiveTab('downloads')}
-          >
-            Technical Spec Sheets
-          </button>
+        {/* Dashboard Navigation Tabs */}
+        <div style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '0.5rem', marginBottom: '2rem', borderBottom: '1px solid var(--color-border)' }}>
+          {[
+            { id: 'overview', label: 'Dashboard Overview' },
+            { id: 'profile', label: 'Profile Information' },
+            { id: 'orders', label: `My Orders (${orders.length})` },
+            { id: 'quotes', label: `My Quote Requests (${enquiries.length})` },
+            { id: 'wishlist', label: `Wishlist (${wishlistItems.length})` },
+            { id: 'addresses', label: 'Saved Addresses' },
+            { id: 'company', label: 'Company Information' }
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              style={{
+                padding: '0.75rem 1.25rem',
+                borderRadius: 'var(--radius-full)',
+                border: 'none',
+                background: activeTab === tab.id ? 'var(--color-accent-rose)' : 'transparent',
+                color: activeTab === tab.id ? '#FFFFFF' : 'var(--color-text-dark)',
+                fontWeight: activeTab === tab.id ? 700 : 500,
+                fontSize: '0.88rem',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
 
-        {/* Tab 1: Overview */}
+        {/* 1. Dashboard Overview */}
         {activeTab === 'overview' && (
-          <div className="account-content-grid">
-            <div className="account-main-col">
-              <div className="content-card">
-                <h2>Corporate Profile Information</h2>
-                <div className="detail-rows">
-                  <div className="detail-row">
-                    <span className="detail-label">Full Name</span>
-                    <span className="detail-value">{user.name}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span className="detail-label">Designation / Department</span>
-                    <span className="detail-value">{user.role}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span className="detail-label">Corporate Email</span>
-                    <span className="detail-value">{user.email}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span className="detail-label">Registered Enterprise</span>
-                    <span className="detail-value">{user.company}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span className="detail-label">Industry Classification</span>
-                    <span className="detail-value">{user.industry || 'Flavour Applications'}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span className="detail-label">Client Code</span>
-                    <span className="detail-value">{user.clientCode}</span>
-                  </div>
-                  <div className="detail-row">
-                    <span className="detail-label">Dedicated Relationship Manager</span>
-                    <span className="detail-value highlight">
-                      {user.assignedManager || 'SKFF Corporate B2B Desk, Mumbai'}
-                    </span>
-                  </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+            <div style={{ background: '#FFFFFF', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-2xl)', padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
+              <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.35rem', color: 'var(--color-primary-dark)', marginBottom: '1.25rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.75rem' }}>
+                Account Quick Stats
+              </h2>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
+                <div style={{ background: 'var(--color-bg-ivory)', padding: '1rem', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-accent-rose)', fontFamily: 'var(--font-heading)' }}>{orders.length}</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Orders Placed</div>
+                </div>
+                <div style={{ background: 'var(--color-bg-ivory)', padding: '1rem', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-accent-rose)', fontFamily: 'var(--font-heading)' }}>{enquiries.length}</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Quote RFQs</div>
+                </div>
+                <div style={{ background: 'var(--color-bg-ivory)', padding: '1rem', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-accent-rose)', fontFamily: 'var(--font-heading)' }}>{wishlistItems.length}</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Saved Formulations</div>
+                </div>
+                <div style={{ background: 'var(--color-bg-ivory)', padding: '1rem', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-accent-rose)', fontFamily: 'var(--font-heading)' }}>{cartItems.length}</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Cart Items</div>
                 </div>
               </div>
 
-              {/* Recent Activity */}
-              <div className="content-card" style={{ marginTop: '1.5rem' }}>
-                <div className="card-header-flex">
-                  <h2>Recent Enquiries & RFQ Activity</h2>
-                  <Link to="/enquiry" className="btn btn-outline btn-xs">
-                    + New Sample Request
-                  </Link>
-                </div>
-
-                {enquiries.length === 0 ? (
-                  <div className="empty-substate">
-                    <FileText size={36} color="var(--color-accent-rose)" />
-                    <p>No recent sample quotation requests found in your local session.</p>
-                    <Link to="/enquiry" className="btn btn-primary btn-sm">
-                      Submit Your First B2B RFQ
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="recent-list">
-                    {enquiries.slice(0, 3).map((item) => (
-                      <div key={item.id} className="recent-list-item">
-                        <div className="item-icon-col">
-                          <Send size={18} color="var(--color-accent-rose)" />
-                        </div>
-                        <div className="item-info-col">
-                          <div className="item-title">
-                            {item.productName || item.category || 'General Formulation Requirement'}
-                          </div>
-                          <div className="item-meta">
-                            Qty: {item.quantity} kg &bull; Ref: {item.refCode || item.id} &bull; Date: {item.date}
-                          </div>
-                        </div>
-                        <span className="status-pill status-review">In Evaluation (Demo)</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Sidebar Quick Actions */}
-            <div className="account-side-col">
-              <div className="content-card quick-links-card">
-                <h3>Quick Actions</h3>
-                <ul className="quick-action-list">
-                  <li>
-                    <Link to="/enquiry" className="action-link">
-                      <Send size={16} />
-                      <span>Request Flavour / Fragrance Quote</span>
-                      <ChevronRight size={16} />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/flavours" className="action-link">
-                      <PackageCheck size={16} />
-                      <span>Browse 7 Flavour Categories</span>
-                      <ChevronRight size={16} />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/fragrances" className="action-link">
-                      <PackageCheck size={16} />
-                      <span>Browse 4 Fragrance Categories</span>
-                      <ChevronRight size={16} />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/specifications" className="action-link">
-                      <Download size={16} />
-                      <span>Regulatory & Technical Spec Sheets</span>
-                      <ChevronRight size={16} />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/admin" className="action-link admin-highlight">
-                      <Building2 size={16} />
-                      <span>Open SKFF Admin Console (Demo)</span>
-                      <ExternalLink size={16} />
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="content-card support-card" style={{ marginTop: '1.5rem' }}>
-                <h3>Corporate Support Desk</h3>
-                <p>Contact your dedicated application technologist at SKFF Mumbai HQ:</p>
-                <div className="support-contact">
-                  <strong>Phone:</strong> <a href="tel:+912242866600">+91-22-4286 6600</a>
-                </div>
-                <div className="support-contact">
-                  <strong>Email:</strong> <a href="mailto:info@skff.co.in">info@skff.co.in</a>
-                </div>
-                <div className="support-contact">
-                  <strong>Address:</strong> Lotus Corporate Park, Goregaon East, Mumbai 400063
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Tab 2: Enquiries */}
-        {activeTab === 'enquiries' && (
-          <div className="content-card">
-            <div className="card-header-flex">
-              <div>
-                <h2>Submitted B2B RFQs & Sample Enquiries</h2>
-                <p>All quotation requests submitted through this device session.</p>
-              </div>
-              <Link to="/enquiry" className="btn btn-primary btn-sm">
-                + Submit New RFQ
-              </Link>
-            </div>
-
-            {enquiries.length === 0 ? (
-              <div className="empty-substate" style={{ padding: '3rem 1rem' }}>
-                <FileText size={48} color="var(--color-accent-rose)" />
-                <h3>No RFQs Submitted Yet</h3>
-                <p>Use the Request a Quote form to submit custom requirement details for flavours or fragrances.</p>
-                <Link to="/enquiry" className="btn btn-primary btn-sm">
-                  Open Business Enquiry Form
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <Link to="/products" className="btn btn-rose btn-sm" style={{ justifyContent: 'center' }}>
+                  <span>Browse All 112 Products</span>
+                  <ChevronRight size={14} />
+                </Link>
+                <Link to="/request-quote" className="btn btn-secondary btn-sm" style={{ justifyContent: 'center' }}>
+                  <FileText size={14} />
+                  <span>Request Custom Formulation Quote</span>
                 </Link>
               </div>
-            ) : (
-              <div className="table-responsive" style={{ marginTop: '1.5rem' }}>
-                <table className="data-table">
-                  <thead>
-                    <tr>
-                      <th>Ref Number</th>
-                      <th>Category / Product</th>
-                      <th>Quantity</th>
-                      <th>Date</th>
-                      <th>Industry</th>
-                      <th>Simulated Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {enquiries.map((enq) => (
-                      <tr key={enq.id}>
-                        <td><strong>{enq.refCode || enq.id}</strong></td>
-                        <td>{enq.productName || enq.category || 'Flavour Compound'}</td>
-                        <td>{enq.quantity} kg ({enq.packSize || 'Standard B2B Drum'})</td>
-                        <td>{enq.date}</td>
-                        <td>{enq.industry || 'Food & Beverage'}</td>
-                        <td>
-                          <span className="status-pill status-review">Lab Review (Demo)</span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            </div>
+
+            <div style={{ background: '#FFFFFF', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-2xl)', padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
+              <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.35rem', color: 'var(--color-primary-dark)', marginBottom: '1.25rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.75rem' }}>
+                Dedicated Technical Desk
+              </h2>
+              <p style={{ fontSize: '0.88rem', color: 'var(--color-text-muted)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+                As an enterprise B2B partner, your account is managed directly by our senior flavourists and technical application specialists:
+              </p>
+              <div style={{ background: 'var(--color-bg-ivory)', padding: '1.25rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--color-border)', fontSize: '0.85rem' }}>
+                <div style={{ fontWeight: 700, color: 'var(--color-primary-dark)', marginBottom: '0.25rem' }}>
+                  {user.assignedManager || 'Sunil Mehta (VP Business Development)'}
+                </div>
+                <div style={{ color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>
+                  SKFF Corporate Technology Centre, Mumbai
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', color: 'var(--color-text-dark)' }}>
+                  <div><strong>Phone:</strong> +91-22-4286 6600</div>
+                  <div><strong>Direct Desk:</strong> rfq.commercial@skff.in</div>
+                  <div><strong>Operating Hours:</strong> Mon - Sat (9:00 AM - 6:00 PM IST)</div>
+                </div>
               </div>
-            )}
+            </div>
           </div>
         )}
 
-        {/* Tab 3: Orders */}
-        {activeTab === 'orders' && (
-          <div className="content-card">
-            <div className="card-header-flex">
+        {/* 2. Profile Information */}
+        {activeTab === 'profile' && (
+          <div style={{ background: '#FFFFFF', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-2xl)', padding: '2.5rem', maxWidth: '800px', boxShadow: 'var(--shadow-sm)' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', color: 'var(--color-primary-dark)', marginBottom: '1.5rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.75rem' }}>
+              Personal &amp; Executive Profile
+            </h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem' }}>
               <div>
-                <h2>Demonstration Sample Orders</h2>
-                <p>Simulated orders placed through the frontend shopping cart demo.</p>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-light)', marginBottom: '0.25rem' }}>Full Representative Name</label>
+                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-text-dark)' }}>{user.name}</div>
               </div>
-              <Link to="/catalogue" className="btn btn-outline btn-sm">
-                Browse Catalogue
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-light)', marginBottom: '0.25rem' }}>Corporate Email</label>
+                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-text-dark)' }}>{user.email}</div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-light)', marginBottom: '0.25rem' }}>Designation / Role</label>
+                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-text-dark)' }}>{user.role}</div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-light)', marginBottom: '0.25rem' }}>Account Status</label>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', color: '#2E7D32', fontWeight: 600 }}>
+                  <CheckCircle2 size={16} /> Verified B2B Partner
+                </div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-light)', marginBottom: '0.25rem' }}>Member Since</label>
+                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-text-dark)' }}>{user.memberSince || '2021'}</div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-light)', marginBottom: '0.25rem' }}>Client Code</label>
+                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-text-dark)', fontFamily: 'monospace' }}>{user.clientCode}</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 3. My Orders */}
+        {activeTab === 'orders' && (
+          <div style={{ background: '#FFFFFF', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-2xl)', padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+              <div>
+                <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', color: 'var(--color-primary-dark)', margin: 0 }}>My Demonstration Orders</h2>
+                <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-muted)', fontSize: '0.88rem' }}>Orders submitted via frontend checkout prototype</p>
+              </div>
+              <Link to="/orders" className="btn btn-rose btn-sm">
+                <span>Open Dedicated Orders Page</span>
+                <ChevronRight size={14} />
               </Link>
             </div>
 
             {orders.length === 0 ? (
-              <div className="empty-substate" style={{ padding: '3rem 1rem' }}>
-                <ShoppingBag size={48} color="var(--color-accent-rose)" />
-                <h3>No Demo Orders Placed</h3>
-                <p>Explore our 11 categories, add items to cart, and try the frontend checkout simulation.</p>
-                <Link to="/catalogue" className="btn btn-primary btn-sm">
-                  Explore Products
-                </Link>
+              <div style={{ textAlign: 'center', padding: '3.5rem 1rem' }}>
+                <ShoppingBag size={48} color="var(--color-accent-rose)" style={{ margin: '0 auto 1rem' }} />
+                <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary-dark)' }}>No Orders Placed Yet</h3>
+                <p style={{ color: 'var(--color-text-muted)', maxWidth: '420px', margin: '0 auto 1.5rem', fontSize: '0.88rem' }}>
+                  Browse our flavours and fragrances, add items to your cart, and experience the checkout flow.
+                </p>
+                <Link to="/products" className="btn btn-secondary btn-sm">Browse Products</Link>
               </div>
             ) : (
-              <div className="table-responsive" style={{ marginTop: '1.5rem' }}>
-                <table className="data-table">
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                   <thead>
-                    <tr>
-                      <th>Order ID</th>
-                      <th>Date</th>
-                      <th>Items Count</th>
-                      <th>Demo Total</th>
-                      <th>Shipping Tier</th>
-                      <th>Demo Status</th>
+                    <tr style={{ background: 'var(--color-bg-ivory)', borderBottom: '1px solid var(--color-border)' }}>
+                      <th style={{ padding: '0.75rem 1rem' }}>Order ID</th>
+                      <th style={{ padding: '0.75rem 1rem' }}>Date</th>
+                      <th style={{ padding: '0.75rem 1rem' }}>Items</th>
+                      <th style={{ padding: '0.75rem 1rem' }}>Total</th>
+                      <th style={{ padding: '0.75rem 1rem' }}>Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {orders.map((ord) => (
-                      <tr key={ord.id}>
-                        <td><strong>{ord.orderNumber || ord.id}</strong></td>
-                        <td>{ord.date}</td>
-                        <td>{ord.items?.length || 1} product(s)</td>
-                        <td>₹{ord.total?.toLocaleString('en-IN')}</td>
-                        <td>{ord.shippingMethod || 'Standard Surface'}</td>
-                        <td>
-                          <span className="status-pill status-success">Demo Confirmed</span>
+                    {orders.map(o => (
+                      <tr key={o.id} style={{ borderBottom: '1px solid var(--color-border)' }}>
+                        <td style={{ padding: '1rem', fontWeight: 600, fontFamily: 'monospace' }}>{o.orderNumber || o.id}</td>
+                        <td style={{ padding: '1rem' }}>{o.date}</td>
+                        <td style={{ padding: '1rem' }}>{o.items?.length || 1} product(s)</td>
+                        <td style={{ padding: '1rem', fontWeight: 700, color: 'var(--color-accent-rose)' }}>₹{o.total?.toLocaleString('en-IN')}</td>
+                        <td style={{ padding: '1rem' }}>
+                          <span style={{ background: '#E8F5E9', color: '#2E7D32', padding: '0.2rem 0.6rem', borderRadius: 'var(--radius-full)', fontSize: '0.75rem', fontWeight: 600 }}>
+                            Confirmed (Demo)
+                          </span>
                         </td>
                       </tr>
                     ))}
@@ -400,43 +348,182 @@ const Account = () => {
           </div>
         )}
 
-        {/* Tab 4: Technical Spec Sheets */}
-        {activeTab === 'downloads' && (
-          <div className="content-card">
-            <div className="card-header-flex">
+        {/* 4. My Quote Requests */}
+        {activeTab === 'quotes' && (
+          <div style={{ background: '#FFFFFF', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-2xl)', padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
               <div>
-                <h2>Corporate Technical & Regulatory Spec Sheets</h2>
-                <p>Demonstration specification documentation for standard formulations.</p>
+                <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', color: 'var(--color-primary-dark)', margin: 0 }}>My Quote Requests (RFQs)</h2>
+                <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-muted)', fontSize: '0.88rem' }}>Commercial quotation and evaluation sample requests</p>
               </div>
-              <Link to="/specifications" className="btn btn-outline btn-sm">
-                View Full Interactive Specs
+              <Link to="/quotes" className="btn btn-rose btn-sm">
+                <span>Open Dedicated Quotes Tracker</span>
+                <ChevronRight size={14} />
               </Link>
             </div>
 
-            <div className="spec-downloads-list" style={{ marginTop: '1.5rem' }}>
-              {[
-                { title: 'Technical Specification — Madagascar Bourbon Type Vanilla Flavour (SKFF-FL-002)', code: 'TDS-VAN-002', type: 'Flavours / Confectionery' },
-                { title: 'Technical Specification — French Lavender Fresh Fragrance (SKFF-FR-071)', code: 'TDS-LAV-071', type: 'Fragrances / Home Care' },
-                { title: 'Technical Specification — Alphonso Mango Natural Taste Flavour (SKFF-FL-043)', code: 'TDS-MNG-043', type: 'Flavours / Beverages' },
-                { title: 'Technical Specification — Natural Peppermint Masking Extract (SKFF-FL-051)', code: 'TDS-PEP-051', type: 'Flavours / Pharmaceuticals' },
-                { title: 'General Allergen Declaration & Heavy Metal Assay Guidelines (Demonstration Template)', code: 'REG-STD-2026', type: 'Corporate Quality' }
-              ].map((doc, idx) => (
-                <div key={idx} className="spec-download-item">
-                  <div className="doc-icon">
-                    <FileText size={22} color="var(--color-accent-rose)" />
+            {enquiries.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '3.5rem 1rem' }}>
+                <FileText size={48} color="var(--color-accent-rose)" style={{ margin: '0 auto 1rem' }} />
+                <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary-dark)' }}>No RFQs Submitted Yet</h3>
+                <p style={{ color: 'var(--color-text-muted)', maxWidth: '420px', margin: '0 auto 1.5rem', fontSize: '0.88rem' }}>
+                  Submit an RFQ for bespoke flavours, fragrances, or bulk production quantities.
+                </p>
+                <Link to="/request-quote" className="btn btn-secondary btn-sm">Submit B2B RFQ</Link>
+              </div>
+            ) : (
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
+                  <thead>
+                    <tr style={{ background: 'var(--color-bg-ivory)', borderBottom: '1px solid var(--color-border)' }}>
+                      <th style={{ padding: '0.75rem 1rem' }}>RFQ ID</th>
+                      <th style={{ padding: '0.75rem 1rem' }}>Product / Category</th>
+                      <th style={{ padding: '0.75rem 1rem' }}>Quantity</th>
+                      <th style={{ padding: '0.75rem 1rem' }}>Date</th>
+                      <th style={{ padding: '0.75rem 1rem' }}>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {enquiries.map(enq => (
+                      <tr key={enq.id} style={{ borderBottom: '1px solid var(--color-border)' }}>
+                        <td style={{ padding: '1rem', fontWeight: 600, fontFamily: 'monospace' }}>{enq.refCode || enq.id}</td>
+                        <td style={{ padding: '1rem', fontWeight: 600 }}>{enq.productName || enq.category || 'Flavour Compound'}</td>
+                        <td style={{ padding: '1rem' }}>{enq.quantity} kg</td>
+                        <td style={{ padding: '1rem' }}>{enq.date}</td>
+                        <td style={{ padding: '1rem' }}>
+                          <span style={{ background: 'var(--color-bg-pastel-pink)', color: 'var(--color-accent-rose)', padding: '0.2rem 0.6rem', borderRadius: 'var(--radius-full)', fontSize: '0.75rem', fontWeight: 600 }}>
+                            Under Review
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 5. Wishlist Tab */}
+        {activeTab === 'wishlist' && (
+          <div style={{ background: '#FFFFFF', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-2xl)', padding: '2rem', boxShadow: 'var(--shadow-sm)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+              <div>
+                <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', color: 'var(--color-primary-dark)', margin: 0 }}>Saved Formulation Wishlist</h2>
+                <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-muted)', fontSize: '0.88rem' }}>You have {wishlistItems.length} formulation(s) saved for future evaluation</p>
+              </div>
+              <Link to="/wishlist" className="btn btn-rose btn-sm">
+                <span>View Full Wishlist Page</span>
+                <ChevronRight size={14} />
+              </Link>
+            </div>
+
+            {wishlistItems.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '3.5rem 1rem' }}>
+                <Heart size={48} color="var(--color-accent-rose)" style={{ margin: '0 auto 1rem' }} />
+                <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary-dark)' }}>Wishlist is Empty</h3>
+                <p style={{ color: 'var(--color-text-muted)', maxWidth: '420px', margin: '0 auto 1.5rem', fontSize: '0.88rem' }}>
+                  Explore flavours and fragrances and click the heart icon to save products for later evaluation.
+                </p>
+                <Link to="/products" className="btn btn-secondary btn-sm">Browse Products</Link>
+              </div>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem' }}>
+                {wishlistItems.slice(0, 4).map(item => (
+                  <div key={item.id} style={{ display: 'flex', gap: '1rem', padding: '1rem', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', background: 'var(--color-bg-ivory)' }}>
+                    <img src={item.image} alt={item.name} style={{ width: '60px', height: '60px', borderRadius: 'var(--radius-md)', objectFit: 'cover' }} />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: '0.72rem', color: 'var(--color-accent-rose)', fontWeight: 700, textTransform: 'uppercase' }}>{item.categoryName}</div>
+                      <Link to={`/products/${item.slug}`} style={{ fontWeight: 600, color: 'var(--color-primary-dark)', textDecoration: 'none', fontSize: '0.9rem', display: 'block' }}>{item.name}</Link>
+                      <div style={{ fontSize: '0.72rem', color: 'var(--color-text-light)', fontFamily: 'monospace' }}>SKU: {item.sku || `SKFF-${item.id.toUpperCase()}`}</div>
+                    </div>
                   </div>
-                  <div className="doc-info">
-                    <h4>{doc.title}</h4>
-                    <span className="doc-meta">{doc.code} &bull; {doc.type}</span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 6. Saved Addresses */}
+        {activeTab === 'addresses' && (
+          <div style={{ background: '#FFFFFF', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-2xl)', padding: '2.5rem', boxShadow: 'var(--shadow-sm)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+              <div>
+                <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', color: 'var(--color-primary-dark)', margin: 0 }}>Corporate Addresses &amp; Delivery Locations</h2>
+                <p style={{ margin: '0.25rem 0 0', color: 'var(--color-text-muted)', fontSize: '0.88rem' }}>Registered GST billing offices and industrial plant delivery points</p>
+              </div>
+              <button onClick={() => addToast('Demonstration: Address creation modal ready in production', 'info')} className="btn btn-secondary btn-sm" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                <Plus size={14} />
+                <span>Add New Address</span>
+              </button>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
+              {addresses.map(addr => (
+                <div key={addr.id} style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius-xl)', padding: '1.5rem', background: addr.isDefault ? '#FFF8F8' : 'var(--color-bg-ivory)', position: 'relative' }}>
+                  {addr.isDefault && (
+                    <span style={{ position: 'absolute', top: '12px', right: '12px', background: 'var(--color-accent-rose)', color: '#FFFFFF', fontSize: '0.7rem', padding: '0.2rem 0.5rem', borderRadius: 'var(--radius-full)', fontWeight: 700 }}>
+                      DEFAULT BILLING
+                    </span>
+                  )}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, color: 'var(--color-primary-dark)', marginBottom: '0.5rem', fontSize: '1rem' }}>
+                    <MapPin size={16} color="var(--color-accent-rose)" />
+                    <span>{addr.type}</span>
                   </div>
-                  <button
-                    onClick={() => addToast(`Downloaded demonstration spec sheet: ${doc.code}`, 'success')}
-                    className="btn btn-outline btn-sm download-btn"
-                  >
-                    <Download size={16} /> Download TDS
-                  </button>
+                  <div style={{ fontWeight: 600, color: 'var(--color-text-dark)', marginBottom: '0.25rem' }}>{addr.company}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', lineHeight: 1.5 }}>
+                    <div>Attn: {addr.attention}</div>
+                    <div>{addr.street}</div>
+                    <div>{addr.city}, {addr.state} - {addr.postalCode}</div>
+                    <div>{addr.country}</div>
+                    {addr.gstin && <div style={{ marginTop: '0.35rem', fontFamily: 'monospace', fontWeight: 600, color: 'var(--color-text-dark)' }}>GSTIN: {addr.gstin}</div>}
+                  </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* 7. Company Information */}
+        {activeTab === 'company' && (
+          <div style={{ background: '#FFFFFF', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-2xl)', padding: '2.5rem', maxWidth: '840px', boxShadow: 'var(--shadow-sm)' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', color: 'var(--color-primary-dark)', marginBottom: '1.5rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.75rem' }}>
+              Enterprise Company Details
+            </h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-light)', marginBottom: '0.25rem' }}>Registered Corporate Name</label>
+                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-text-dark)' }}>{user.company}</div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-light)', marginBottom: '0.25rem' }}>Industry Classification</label>
+                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-text-dark)' }}>{user.industry || 'Bakery and Confectionery'}</div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-light)', marginBottom: '0.25rem' }}>Commercial GSTIN</label>
+                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-text-dark)', fontFamily: 'monospace' }}>27AABCK8842F1Z9</div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-light)', marginBottom: '0.25rem' }}>Corporate PAN</label>
+                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-text-dark)', fontFamily: 'monospace' }}>AABCK8842F</div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-light)', marginBottom: '0.25rem' }}>Credit &amp; Commercial Terms</label>
+                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-text-dark)' }}>Net 30 Days (Pre-Approved Tier 1)</div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-light)', marginBottom: '0.25rem' }}>SKFF Agreement Reference</label>
+                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-text-dark)', fontFamily: 'monospace' }}>SKFF-MSA-2021-094</div>
+              </div>
+            </div>
+
+            <div style={{ background: 'var(--color-bg-ivory)', padding: '1.25rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--color-border)' }}>
+              <div style={{ fontWeight: 700, color: 'var(--color-primary-dark)', marginBottom: '0.35rem' }}>
+                Need updates to company documentation?
+              </div>
+              <p style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', margin: 0, lineHeight: 1.5 }}>
+                To modify corporate tax registrations or add new plant delivery destinations, please email your dedicated account desk at <a href="mailto:corporate@skff.in" style={{ color: 'var(--color-accent-rose)' }}>corporate@skff.in</a>.
+              </p>
             </div>
           </div>
         )}
@@ -446,3 +533,4 @@ const Account = () => {
 };
 
 export default Account;
+

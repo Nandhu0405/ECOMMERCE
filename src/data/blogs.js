@@ -14,7 +14,7 @@ export const BLOGS = [
     excerpt: 'How modern sensory modulation technology overcomes active pharmaceutical ingredient (API) bitterness to maximize paediatric and geriatric compliance.',
     date: 'February 12, 2026',
     author: 'SKFF R&D Application Team',
-    category: 'Pharmaceuticals & Science',
+    category: 'Innovation',
     readTime: '6 min read',
     image: rdLab,
     content: `
@@ -44,7 +44,7 @@ export const BLOGS = [
     excerpt: 'Exploring the shifting consumer landscape towards low-sugar, adaptogen-infused, and electrolyte beverages with clean-label botanical aromas.',
     date: 'January 28, 2026',
     author: 'Beverage Innovation Group',
-    category: 'Beverage Trends',
+    category: 'Industry Insights',
     readTime: '5 min read',
     image: appLab,
     content: `
@@ -70,7 +70,7 @@ export const BLOGS = [
     excerpt: 'An inside look at fiber substantivity, blooming kinetics, and pro-fragrance technology in laundry detergents and fabric softeners.',
     date: 'January 15, 2026',
     author: 'Fragrance Synthesis Division',
-    category: 'Fragrance Science',
+    category: 'Innovation',
     readTime: '7 min read',
     image: whoWeAreLab,
     content: `
@@ -91,7 +91,7 @@ export const BLOGS = [
     excerpt: 'A retrospective on how a heritage merchant house founded in 1922 expanded into a multi-facility global manufacturer of flavours and fragrances.',
     date: 'December 20, 2025',
     author: 'SKFF Corporate Editorial',
-    category: 'Heritage & Company',
+    category: 'Company News',
     readTime: '6 min read',
     image: grasseFrance,
     content: `
@@ -103,6 +103,40 @@ export const BLOGS = [
 
       <h2>Bridging Grasse and Mumbai</h2>
       <p>In 2018, SKFrance was established in Grasse—the world capital of perfumery—bridging century-old French fine fragrance tradition with Indian manufacturing scalability and regional market insight.</p>
+    `
+  },
+  {
+    id: 'blog-5',
+    slug: 'skff-launches-next-gen-bake-stable-flavour-line',
+    title: 'Product Update: SKFF Releases Next-Generation Bake-Stable Flavour Line',
+    excerpt: 'New encapsulation technology preserves high-impact top notes through 220°C oven cycles for premium cookies and artisanal breads.',
+    date: 'March 10, 2026',
+    author: 'Bakery Flavour Development Lab',
+    category: 'Product Updates',
+    readTime: '4 min read',
+    image: appLab,
+    content: `
+      <h2>Overcoming Thermal Volatility in Industrial Baking</h2>
+      <p>High baking temperatures consistently drive off sensitive fruit esters and volatile aroma molecules. SKFF's new encapsulated emulsion system ensures maximum flavor retention through industrial continuous tunnel ovens up to 220°C.</p>
+      <h2>Validated in Commercial Matrix Formulations</h2>
+      <p>Tested across high-protein cookies, laminates, and yeast-raised buns, our next-generation bake-stable vanilla, dark chocolate, and roasted hazelnut profiles show a 40% higher aroma retention compared to traditional liquid essences.</p>
+    `
+  },
+  {
+    id: 'blog-6',
+    slug: 'skff-exhibiting-at-food-ingredients-india-2026',
+    title: 'Events: SKFF Showcases Sustainable Sensory Innovations at Fi India 2026',
+    excerpt: 'Meet our master perfumers and flavour scientists at Food Ingredients India (Mumbai) to experience our live taste and scent creation booth.',
+    date: 'April 05, 2026',
+    author: 'Corporate Events & Public Relations',
+    category: 'Events',
+    readTime: '3 min read',
+    image: rdLab,
+    content: `
+      <h2>Connecting with Food & Beverage Innovators</h2>
+      <p>SKFF is excited to exhibit at Food Ingredients India 2026 in Mumbai. Visit our interactive booth to sample functional mocktails, low-sugar confectionery concepts, and sustainable laundry freshness innovations.</p>
+      <h2>Book a One-on-One Technical Consultation</h2>
+      <p>Our formulation scientists will be available for booked 30-minute formulation review sessions to help your brand optimize aroma fidelity and production yields.</p>
     `
   }
 ];

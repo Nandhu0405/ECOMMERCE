@@ -51,24 +51,27 @@ const Home = () => {
             </div>
 
             <h1 className="hero-title">
-              The Craft of <span className="italic-accent">Flavour</span> &amp;<br />
-              The Poetry of <span className="italic-accent">Fragrance</span>
+              Discover Exceptional <span className="italic-accent">Flavours</span> &amp;<br />
+              <span className="italic-accent">Fragrances</span>
             </h1>
 
             <p className="hero-subtitle">
-              For over a century, SKFF (INDIA) PVT. LTD. has combined nature’s botanicals with precision analytical science to formulate signature taste and scent solutions for global brands.
+              Driven by four generations of relentless innovation, uncompromising Swiss and Indian quality standards, and an enduring passion to perform for global food, beverage, and consumer goods brands.
             </p>
 
             <div className="hero-cta-group">
-              <Link to="/flavours" className="btn btn-primary btn-lg">
-                Explore Flavours
+              <Link to="/products" className="btn btn-primary btn-lg">
+                Explore Products
+              </Link>
+              <Link to="/flavours" className="btn btn-secondary btn-lg" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(8px)' }}>
+                View Flavours
               </Link>
               <Link to="/fragrances" className="btn btn-secondary btn-lg" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(8px)' }}>
-                Explore Fragrances
+                View Fragrances
               </Link>
-              <Link to="/enquiry" className="btn btn-rose btn-lg">
+              <Link to="/request-quote" className="btn btn-rose btn-lg">
                 <Send size={15} />
-                <span>Send an Enquiry</span>
+                <span>Request a Quote</span>
               </Link>
             </div>
           </div>
@@ -101,12 +104,12 @@ const Home = () => {
               </p>
 
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <Link to="/about" className="btn btn-primary">
-                  <span>Our Century Story</span>
+                <Link to="/company-profile" className="btn btn-primary">
+                  <span>Company Profile</span>
                   <ArrowRight size={15} />
                 </Link>
-                <Link to="/company-profile" className="btn btn-secondary">
-                  <span>Company Profile</span>
+                <Link to="/contact" className="btn btn-secondary">
+                  <span>Contact Our Specialists</span>
                 </Link>
               </div>
 
@@ -271,7 +274,7 @@ const Home = () => {
                 Illustrative catalogue highlights representing our industrial-grade aroma systems.
               </p>
             </div>
-            <Link to="/catalogue" className="btn btn-primary">
+            <Link to="/products" className="btn btn-primary">
               View All 112 Products →
             </Link>
           </div>
@@ -289,97 +292,85 @@ const Home = () => {
       </section>
 
       {/* =========================================================================
-          G. RESEARCH, DEVELOPMENT & APPLICATION CAPABILITIES
-          ========================================================================= */}
-      <section className="section capabilities-section">
-        <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 3rem' }}>
-            <span className="eyebrow">SCIENTIFIC EXCELLENCE</span>
-            <h2 style={{ color: 'var(--color-primary-dark)', marginBottom: '0.75rem' }}>
-              Advanced R&amp;D &amp; Application Laboratories
-            </h2>
-            <p>
-              Combining rigorous scientific research with state-of-the-art analytical equipment to craft bespoke flavours and fragrances tailored to complex manufacturing processes.
-            </p>
-          </div>
-
-          <div className="capabilities-grid">
-            <div className="capability-card">
-              <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'rgba(232,93,117,0.1)', color: 'var(--color-accent-rose)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
-                <Microscope size={24} />
-              </div>
-              <h4>Application Center (Andheri, Mumbai)</h4>
-              <p>
-                Dedicated sensory tasting panels, prototype bakery ovens, beverage bottling units, and cosmetic testing benches replicating customer manufacturing processes in real time.
-              </p>
-            </div>
-
-            <div className="capability-card">
-              <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'rgba(232,93,117,0.1)', color: 'var(--color-accent-rose)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
-                <Globe2 size={24} />
-              </div>
-              <h4>Boisar 75,000 Sq.Ft Manufacturing Plant</h4>
-              <p>
-                Equipped with automated batch compounding, analytical Gas Chromatography-Mass Spectrometry (GC-MS), high-shear emulsification, and stainless steel distillation columns.
-              </p>
-            </div>
-
-            <div className="capability-card">
-              <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'rgba(232,93,117,0.1)', color: 'var(--color-accent-rose)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
-                <Sparkles size={24} />
-              </div>
-              <h4>Creative Studio (Grasse, France)</h4>
-              <p>
-                Our international creative presence in Grasse, France connects historical French fine perfumery craftsmanship with cutting-edge aroma synthesis for global luxury applications.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================================
-          H. QUALITY & CUSTOMER COMMITMENT
+          G. WHY CHOOSE SKFF (6 PILLARS)
           ========================================================================= */}
       <section className="section" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid var(--color-border)' }}>
         <div className="container">
-          <div style={{ background: 'var(--color-bg-ivory)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-xl)', padding: '3.5rem 3rem' }}>
-            <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-              <span className="eyebrow">RESPONSIBLE FORMULATION</span>
-              <h2 style={{ color: 'var(--color-primary-dark)', marginBottom: '1rem' }}>
-                Our Commitment to Quality &amp; Product Suitability
-              </h2>
-              <p style={{ lineHeight: 1.8, marginBottom: '2rem' }}>
-                At SKFF, we maintain strict quality standards in sourcing raw aroma chemicals, essential oils, and botanicals. Every batch is evaluated for sensory fidelity, solubility, thermal resistance, and chemical consistency so that your final consumer products perform dependably on shelves.
-              </p>
+          <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3.5rem' }}>
+            <span className="eyebrow">OUR CORE STRENGTHS</span>
+            <h2 style={{ color: 'var(--color-primary-dark)', marginBottom: '0.75rem' }}>
+              Why Choose SKFF
+            </h2>
+            <p>
+              Four generations of curiosity, rooted in nature. We partner with leading consumer goods and food enterprises to deliver dependable sensory performance.
+            </p>
+          </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', textAlign: 'left' }}>
-                <div style={{ background: '#FFFFFF', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#2E7D32', fontWeight: 600, fontSize: '0.9rem', marginBottom: '0.35rem' }}>
-                    <CheckCircle2 size={16} /> Batch Consistency
-                  </div>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-                    Standardized organoleptic evaluation across all production lots.
-                  </p>
-                </div>
-
-                <div style={{ background: '#FFFFFF', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#2E7D32', fontWeight: 600, fontSize: '0.9rem', marginBottom: '0.35rem' }}>
-                    <CheckCircle2 size={16} /> Technical Support
-                  </div>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-                    Direct formulation guidance from experienced flavourists &amp; perfumers.
-                  </p>
-                </div>
-
-                <div style={{ background: '#FFFFFF', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#2E7D32', fontWeight: 600, fontSize: '0.9rem', marginBottom: '0.35rem' }}>
-                    <CheckCircle2 size={16} /> Custom Blending
-                  </div>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-                    Tailored profiles matched to your precise base matrix &amp; target market.
-                  </p>
-                </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
+            {/* Pillar 1: Quality */}
+            <div className="capability-card" style={{ background: 'var(--color-bg-ivory)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-xl)', padding: '2rem' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'rgba(232,93,117,0.1)', color: 'var(--color-accent-rose)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                <ShieldCheck size={24} />
               </div>
+              <h4 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: 'var(--color-primary-dark)' }}>Uncompromising Quality</h4>
+              <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>
+                Every batch undergoes rigorous organoleptic evaluation, GC-MS purity profiling, and complies with FSSAI, IFRA, and global safety standards.
+              </p>
+            </div>
+
+            {/* Pillar 2: Innovation */}
+            <div className="capability-card" style={{ background: 'var(--color-bg-ivory)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-xl)', padding: '2rem' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'rgba(232,93,117,0.1)', color: 'var(--color-accent-rose)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                <Sparkles size={24} />
+              </div>
+              <h4 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: 'var(--color-primary-dark)' }}>Continuous Innovation</h4>
+              <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>
+                Proprietary thermal encapsulation, clean-label botanical extracts, and bitter-receptor masking designed for modern low-sugar and functional formulas.
+              </p>
+            </div>
+
+            {/* Pillar 3: R&D Expertise */}
+            <div className="capability-card" style={{ background: 'var(--color-bg-ivory)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-xl)', padding: '2rem' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'rgba(232,93,117,0.1)', color: 'var(--color-accent-rose)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                <Microscope size={24} />
+              </div>
+              <h4 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: 'var(--color-primary-dark)' }}>R&amp;D Expertise</h4>
+              <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>
+                Dedicated sensory tasting panels, prototype bakery ovens, beverage bottling units, and high-precision analytical spectroscopy in Mumbai and Boisar.
+              </p>
+            </div>
+
+            {/* Pillar 4: Customer-Centric Solutions */}
+            <div className="capability-card" style={{ background: 'var(--color-bg-ivory)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-xl)', padding: '2rem' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'rgba(232,93,117,0.1)', color: 'var(--color-accent-rose)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                <CheckCircle2 size={24} />
+              </div>
+              <h4 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: 'var(--color-primary-dark)' }}>Customer-Centric Solutions</h4>
+              <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>
+                Collaborative co-creation with client formulation teams, rapid sample turnaround, and bespoke dosing guidelines matched to your specific base matrix.
+              </p>
+            </div>
+
+            {/* Pillar 5: Advanced Manufacturing */}
+            <div className="capability-card" style={{ background: 'var(--color-bg-ivory)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-xl)', padding: '2rem' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'rgba(232,93,117,0.1)', color: 'var(--color-accent-rose)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                <Award size={24} />
+              </div>
+              <h4 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: 'var(--color-primary-dark)' }}>Advanced Manufacturing</h4>
+              <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>
+                75,000 sq.ft. industrial manufacturing facility in Boisar equipped with automated liquid compounding, vacuum distillation, and temperature-controlled storage.
+              </p>
+            </div>
+
+            {/* Pillar 6: Global Presence */}
+            <div className="capability-card" style={{ background: 'var(--color-bg-ivory)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-xl)', padding: '2rem' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: 'rgba(232,93,117,0.1)', color: 'var(--color-accent-rose)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                <Globe2 size={24} />
+              </div>
+              <h4 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: 'var(--color-primary-dark)' }}>Global Presence</h4>
+              <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>
+                International footprint uniting our Mumbai headquarters, Boisar plant, Grasse fine fragrance creative studio (France), and Sharjah regional hub (UAE).
+              </p>
             </div>
           </div>
         </div>

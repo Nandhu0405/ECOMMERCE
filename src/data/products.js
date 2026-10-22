@@ -211,7 +211,7 @@ export const PRODUCTS = [
     originalPrice: 2400,
     demoRating: 4.9,
     reviewCount: 35,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Crisp spearmint and peppermint blend with prolonged cooling sensation.',
@@ -241,7 +241,7 @@ export const PRODUCTS = [
     originalPrice: 1500,
     demoRating: 4.7,
     reviewCount: 20,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Bright Valencia orange peel note with juicy citrus pulp body.',
@@ -271,7 +271,7 @@ export const PRODUCTS = [
     originalPrice: 1850,
     demoRating: 4.8,
     reviewCount: 19,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Tart, aromatic dark raspberry with floral and seed nuances.',
@@ -301,7 +301,7 @@ export const PRODUCTS = [
     originalPrice: 1900,
     demoRating: 4.8,
     reviewCount: 26,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'English butter toffee profile with rich caramelized condensed milk finish.',
@@ -545,7 +545,7 @@ export const PRODUCTS = [
     originalPrice: 1750,
     demoRating: 4.8,
     reviewCount: 24,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Sweetened milk harmonized with gentle French vanilla pod essence.',
@@ -575,7 +575,7 @@ export const PRODUCTS = [
     originalPrice: 1950,
     demoRating: 4.9,
     reviewCount: 30,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Rich caramelized evaporated milk aroma with thick syrupy mouthfeel.',
@@ -759,7 +759,7 @@ export const PRODUCTS = [
     originalPrice: 1950,
     demoRating: 4.8,
     reviewCount: 31,
-    availability: 'In Stock',
+    availability: 'Out of Stock',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Freshly roasted Arabica espresso note with smooth mocha richness.',
@@ -789,7 +789,7 @@ export const PRODUCTS = [
     originalPrice: 1800,
     demoRating: 4.7,
     reviewCount: 22,
-    availability: 'In Stock',
+    availability: 'Out of Stock',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Zesty Sicilian lemon peel balanced with sweet baked pound cake aroma.',
@@ -879,7 +879,7 @@ export const PRODUCTS = [
     originalPrice: 1850,
     demoRating: 4.7,
     reviewCount: 27,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Toasted desiccated coconut profile with smooth creamy coconut milk undertone.',
@@ -909,7 +909,7 @@ export const PRODUCTS = [
     originalPrice: 1900,
     demoRating: 4.8,
     reviewCount: 30,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Deep caramelized sugar crust note that elevates baked doughs and glazes.',
@@ -1427,7 +1427,7 @@ export const PRODUCTS = [
     originalPrice: 2200,
     demoRating: 4.8,
     reviewCount: 25,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Invigorating garden spearmint with clean cooling finish for mocktails and sodas.',
@@ -1457,7 +1457,7 @@ export const PRODUCTS = [
     originalPrice: 1950,
     demoRating: 4.9,
     reviewCount: 34,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Harmonious blend of blueberry, raspberry, blackberry, and strawberry.',
@@ -1517,7 +1517,7 @@ export const PRODUCTS = [
     originalPrice: 1900,
     demoRating: 4.8,
     reviewCount: 27,
-    availability: 'In Stock',
+    availability: 'Out of Stock',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Velvety white peach with fragrant floral nectar and delicate sweetness.',
@@ -1551,7 +1551,7 @@ export const PRODUCTS = [
     originalPrice: 2500,
     demoRating: 4.9,
     reviewCount: 35,
-    availability: 'In Stock',
+    availability: 'Out of Stock',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'High-purity therapeutic peppermint profile for oral suspensions and antacid syrups.',
@@ -1761,7 +1761,7 @@ export const PRODUCTS = [
     originalPrice: 2300,
     demoRating: 4.8,
     reviewCount: 26,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Mild soothing herbal mint for mouthwashes, gargles, and dental gels.',
@@ -1791,7 +1791,7 @@ export const PRODUCTS = [
     originalPrice: 1850,
     demoRating: 4.6,
     reviewCount: 20,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Multi-citrus harmony (lemon, orange, grapefruit) for effervescent formulations.',
@@ -1821,7 +1821,7 @@ export const PRODUCTS = [
     originalPrice: 3300,
     demoRating: 5.0,
     reviewCount: 39,
-    availability: 'In Stock',
+    availability: 'Out of Stock',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Proprietary taste-masking complex engineered to block bitter receptor pathways.',
@@ -1855,7 +1855,7 @@ export const PRODUCTS = [
     originalPrice: 1900,
     demoRating: 4.9,
     reviewCount: 46,
-    availability: 'In Stock',
+    availability: 'Out of Stock',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Wholesome roasted malted barley with sweet cereal and dairy notes.',
@@ -2397,7 +2397,7 @@ export const PRODUCTS = [
     originalPrice: 1800,
     demoRating: 4.7,
     reviewCount: 31,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'All-round citrus-floral atmospheric freshener with prolonged aerial suspension.',
@@ -2775,7 +2775,7 @@ export const PRODUCTS = [
     originalPrice: 2300,
     demoRating: 4.8,
     reviewCount: 30,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Madurai Mogra jasmine with intoxicating floral sweetness for hair oils and soaps.',
@@ -3051,7 +3051,7 @@ export const PRODUCTS = [
     originalPrice: 2000,
     demoRating: 4.7,
     reviewCount: 22,
-    availability: 'In Stock',
+    availability: 'Available on Request',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Sweet floral jasmine bloom formulated for high alkaline detergent powders.',
@@ -3153,7 +3153,7 @@ export const PRODUCTS = [
     originalPrice: 2350,
     demoRating: 5.0,
     reviewCount: 51,
-    availability: 'In Stock',
+    availability: 'Out of Stock',
     packSizes: ['1 kg Sample', '5 kg Can', '25 kg Drum'],
     minOrderQuantity: '5 kg',
     shortDesc: 'Advanced capsule-compatible freshness system delivering 30-day scent release on stored clothes.',
@@ -3589,15 +3589,33 @@ export const PRODUCTS = [
   }
 ];
 
+// Helper to retrieve availability with admin override support
+export const getProductAvailability = (product) => {
+  if (!product) return 'In Stock';
+  if (typeof window !== 'undefined') {
+    try {
+      const overrides = JSON.parse(localStorage.getItem('skff_product_availability_overrides') || '{}');
+      if (overrides[product.id]) return overrides[product.id];
+    } catch (e) {
+      // ignore
+    }
+  }
+  return product.availability || (product.inStock ? 'In Stock' : 'Out of Stock');
+};
+
 // Normalized products array supporting all consumer components
-export const products = PRODUCTS.map(p => ({
-  ...p,
-  category: p.categoryName || p.categoryId,
-  price: p.demoPrice,
-  division: p.type === 'flavour' ? 'Flavours' : 'Fragrances',
-  inStock: p.availability === 'In Stock',
-  packSize: p.packSizes?.[0] || '25 kg Drum'
-}));
+export const products = PRODUCTS.map(p => {
+  const avail = getProductAvailability(p);
+  return {
+    ...p,
+    availability: avail,
+    category: p.categoryName || p.categoryId,
+    price: p.demoPrice,
+    division: p.type === 'flavour' ? 'Flavours' : 'Fragrances',
+    inStock: avail === 'In Stock',
+    packSize: p.packSizes?.[0] || '25 kg Drum'
+  };
+});
 
 // Helper functions for easy querying
 export const getProductBySlug = (slug) => PRODUCTS.find(p => p.slug === slug);

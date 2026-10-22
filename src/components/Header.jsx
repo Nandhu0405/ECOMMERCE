@@ -128,12 +128,6 @@ const Header = () => {
               </NavLink>
             </div>
 
-            <div className="nav-item">
-              <NavLink to="/about" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-                About Us
-              </NavLink>
-            </div>
-
             {/* Flavours Mega Menu Dropdown */}
             <div className="nav-item">
               <NavLink 
@@ -149,7 +143,7 @@ const Header = () => {
                   <div>
                     <h4 className="mega-menu-title">Flavour Solutions</h4>
                     <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
-                      Crafted for confectionery, dairy, bakery, beverages, pharmaceuticals &amp; nutrition.
+                      Crafted for confectionery, dairy, bakery, beverages, culinary, pharmaceuticals &amp; nutrition.
                     </p>
                   </div>
                   <Link to="/flavours" className="mega-menu-view-all">
@@ -230,33 +224,40 @@ const Header = () => {
             </div>
 
             <div className="nav-item">
-              <NavLink to="/industries" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-                Industries
+              <NavLink to="/products" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                Products
               </NavLink>
             </div>
 
             <div className="nav-item">
-              <NavLink to="/company-profile" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-                Company Profile
+              <NavLink to="/contact" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+                Contact
               </NavLink>
             </div>
 
-            {/* Resources Mega Menu Dropdown */}
+            {/* Resources / More Menu Dropdown */}
             <div className="nav-item">
               <span className="nav-link" style={{ cursor: 'pointer' }} aria-haspopup="true">
-                <span>Resources</span>
+                <span>More</span>
                 <ChevronDown size={14} />
               </span>
               <div className="mega-menu menu-resources" role="menu">
                 <div className="mega-menu-header">
-                  <h4 className="mega-menu-title">Technical Resources</h4>
+                  <h4 className="mega-menu-title">Enterprise &amp; Science</h4>
                 </div>
                 <div className="mega-menu-grid" style={{ gridTemplateColumns: '1fr' }}>
-                  <Link to="/catalogue" className="mega-menu-item" role="menuitem">
-                    <div className="mega-item-icon">📋</div>
+                  <Link to="/industries" className="mega-menu-item" role="menuitem">
+                    <div className="mega-item-icon">🏭</div>
                     <div className="mega-item-content">
-                      <h5>Product Catalogue</h5>
-                      <p>Browse full 11-category commercial index</p>
+                      <h5>Industries Served</h5>
+                      <p>Solutions for food, beverage, personal care &amp; pharma</p>
+                    </div>
+                  </Link>
+                  <Link to="/company-profile" className="mega-menu-item" role="menuitem">
+                    <div className="mega-item-icon">🏢</div>
+                    <div className="mega-item-content">
+                      <h5>Company Profile</h5>
+                      <p>Corporate infrastructure, Boisar plant &amp; accreditation</p>
                     </div>
                   </Link>
                   <Link to="/specifications" className="mega-menu-item" role="menuitem">
@@ -264,13 +265,6 @@ const Header = () => {
                     <div className="mega-item-content">
                       <h5>Product Specifications</h5>
                       <p>Technical parameters, solubility &amp; dosage standards</p>
-                    </div>
-                  </Link>
-                  <Link to="/blog" className="mega-menu-item" role="menuitem">
-                    <div className="mega-item-icon">📖</div>
-                    <div className="mega-item-content">
-                      <h5>Blogs &amp; Insights</h5>
-                      <p>Articles on sensory science &amp; market innovations</p>
                     </div>
                   </Link>
                   <Link to="/faq" className="mega-menu-item" role="menuitem">
@@ -282,12 +276,6 @@ const Header = () => {
                   </Link>
                 </div>
               </div>
-            </div>
-
-            <div className="nav-item">
-              <NavLink to="/contact" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
-                Contact Us
-              </NavLink>
             </div>
           </nav>
 
@@ -366,7 +354,7 @@ const Header = () => {
             </button>
 
             {/* Visible Quote CTA Button */}
-            <Link to="/enquiry" className="btn btn-rose btn-header-quote">
+            <Link to="/request-quote" className="btn btn-rose btn-header-quote">
               Request Quote
             </Link>
 
@@ -406,10 +394,6 @@ const Header = () => {
             <NavLink to="/" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
               Home
             </NavLink>
-            <NavLink to="/about" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
-              About Us
-            </NavLink>
-
             {/* Mobile Accordion: Flavours */}
             <div>
               <button 
@@ -456,12 +440,28 @@ const Header = () => {
               )}
             </div>
 
-            <NavLink to="/industries" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
-              Industries Served
+            <NavLink to="/products" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+              Products Catalogue
             </NavLink>
-            <NavLink to="/company-profile" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
-              Company Profile
+            <NavLink to="/contact" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+              Contact Us
             </NavLink>
+
+            {/* Mobile Accordion: Account & Orders */}
+            <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '0.5rem', marginTop: '0.5rem' }}>
+              <NavLink to="/account" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                👤 Client Account Dashboard
+              </NavLink>
+              <NavLink to="/orders" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                📦 My Orders &amp; Dispatches
+              </NavLink>
+              <NavLink to="/quotes" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                📋 My Quote Requests (RFQs)
+              </NavLink>
+              <NavLink to="/wishlist" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
+                ❤️ Saved Formulations Wishlist
+              </NavLink>
+            </div>
 
             {/* Mobile Accordion: Resources */}
             <div>
@@ -469,26 +469,22 @@ const Header = () => {
                 className="mobile-accordion-header"
                 onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
               >
-                <span>Resources</span>
+                <span>More Resources</span>
                 <ChevronDown size={16} style={{ transform: mobileResourcesOpen ? 'rotate(180deg)' : 'none', transition: '0.2s' }} />
               </button>
               {mobileResourcesOpen && (
                 <div className="mobile-accordion-body">
-                  <Link to="/catalogue" className="mobile-sublink">Product Catalogue</Link>
+                  <Link to="/industries" className="mobile-sublink">Industries Served</Link>
+                  <Link to="/company-profile" className="mobile-sublink">Company Profile</Link>
                   <Link to="/specifications" className="mobile-sublink">Product Specifications</Link>
-                  <Link to="/blog" className="mobile-sublink">Blogs &amp; Insights</Link>
                   <Link to="/faq" className="mobile-sublink">Frequently Asked Questions</Link>
                 </div>
               )}
             </div>
-
-            <NavLink to="/contact" className="mobile-sublink" onClick={() => setIsMobileMenuOpen(false)}>
-              Contact Us
-            </NavLink>
           </div>
 
           <div className="mobile-drawer-footer">
-            <Link to="/enquiry" className="btn btn-rose btn-block" onClick={() => setIsMobileMenuOpen(false)}>
+            <Link to="/request-quote" className="btn btn-rose btn-block" onClick={() => setIsMobileMenuOpen(false)}>
               Request a B2B Quote
             </Link>
             <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', textAlign: 'center' }}>
